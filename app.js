@@ -4,15 +4,23 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var swig         = require('swig');
 var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+// utilisation du moteur de swig pour les .html
+app.engine('html', swig.renderFile); 
+// utiliser le moteur de template pour les .html
+app.set('view engine', 'html'); 
+// dossier des vues
+app.set('views', path.join(__dirname, 'views')); 
+
+// view cache
+app.set('view cache', false); // désactivation du cache express
+swig.setDefaults({ cache: false }); // désactivation du cache swig
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
